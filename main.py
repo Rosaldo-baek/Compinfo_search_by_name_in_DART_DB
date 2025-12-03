@@ -108,8 +108,6 @@ def clean_names_with_openai(raw_names, openai_api_key: str):
     if not openai_api_key:
         return [basic_clean_name(n) for n in norm_raw]
 
-    openai.api_key = openai_api_key
-
     # 프롬프트용 문자열 구성 (정규화된 값 기준)
     joined = "\n".join(f"{i+1}. {name}" for i, name in enumerate(norm_raw))
 
@@ -137,7 +135,7 @@ def clean_names_with_openai(raw_names, openai_api_key: str):
                 {"role": "system", "content": "당신은 한국 기업명 정제 도우미입니다."},
                 {"role": "user", "content": prompt},
             ],
-            temperature=0,
+            temperature=0,api_key = openai_api_key
         )
         content = resp.choices[0].message["content"]
     except Exception as e:
@@ -372,3 +370,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
